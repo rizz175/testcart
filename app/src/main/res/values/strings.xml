@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="cart_timer">Cart Timer</string>
+    <string name="subtile">Choose how long customers have to check out once they place an item in their cart. This setting also applies to Reply To Buy™ purchases.</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+</resources>
