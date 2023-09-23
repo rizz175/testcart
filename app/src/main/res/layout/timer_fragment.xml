@@ -24,6 +24,8 @@
 
         <!-- Second NumberPicker -->
         <NumberPicker
+            android:layout_marginRight="12dp"
+            android:layout_marginLeft="12dp"
             android:id="@+id/hourPicker"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
