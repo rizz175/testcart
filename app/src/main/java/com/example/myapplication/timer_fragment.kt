@@ -50,7 +50,9 @@ class TimerFragment : Fragment() {
 //        minutePicker.maxValue = minutesOptions.size - 1
 //        minutePicker.displayedValues = minutesOptions
 
-        presetTime(minutePicker!!,hourPicker!!, dayPicker!! )
+        // days = 1440 min
+        // 1 day 1 hour 1500
+        presetTime(minutePicker!!,hourPicker!!, dayPicker!!,  timeConvert(1500).toString())
 
 
         cancelBtn = view.findViewById(R.id.cancelBtn)
@@ -76,7 +78,7 @@ class TimerFragment : Fragment() {
     }
 
 
-    fun presetTime(nMin: NumberPicker, nHour: NumberPicker, nDays : NumberPicker){
+    fun presetTime(nMin: NumberPicker, nHour: NumberPicker, nDays : NumberPicker, convertedTime: String){
 
 
         val hoursOptions = arrayOf(
@@ -111,31 +113,65 @@ class TimerFragment : Fragment() {
         val daysOptions = arrayOf("0 day", "1 day")
         val minutesOptions = arrayOf("15 mins", "30 mins","45 mins")
 
-        when (getTimeValue(timeConvert(90).toString())) {
 
-            TimeConversion.DAYS ->{}
+
+        when (getTimeValue(convertedTime)) {
+
+            TimeConversion.DAYS ->{
+
+                dayPicker!!.minValue = 0
+                dayPicker!!.maxValue = daysOptions.size - 1
+                dayPicker!!.displayedValues = daysOptions
+                dayPicker!!.value = returnTimeValue(convertedTime, TimeConversion.DAYS)
+
+                hourPicker!!.minValue = 0
+                hourPicker!!.maxValue = hoursOptions.size - 1
+                hourPicker!!.displayedValues = hoursOptions
+                hourPicker!!.value = returnTimeValue(convertedTime, TimeConversion.HOURS)
+
+                minutePicker!!.minValue = 0
+                minutePicker!!.maxValue = minutesOptions.size - 1
+                minutePicker!!.displayedValues = minutesOptions
+                minutePicker!!.value = returnTimeValue(convertedTime, TimeConversion.MIN)
+
+            }
             TimeConversion.HOURS ->{
 
-            dayPicker!!.minValue = 0
-            dayPicker!!.maxValue = daysOptions.size - 1
-            dayPicker!!.displayedValues = daysOptions
+                dayPicker!!.minValue = 0
+                dayPicker!!.maxValue = daysOptions.size - 1
+                dayPicker!!.displayedValues = daysOptions
+                dayPicker!!.value = 0
 
-            hourPicker!!.minValue = 0
-            hourPicker!!.maxValue = hoursOptions.size - 1
-            hourPicker!!.displayedValues = hoursOptions
-            hourPicker!!.value = returnTimeValue(timeConvert(90).toString(), TimeConversion.HOURS)
+                hourPicker!!.minValue = 0
+                hourPicker!!.maxValue = hoursOptions.size - 1
+                hourPicker!!.displayedValues = hoursOptions
+                hourPicker!!.value = returnTimeValue(convertedTime, TimeConversion.HOURS)
 
-
-            // Options for the third NumberPicker
-
-            minutePicker!!.minValue = 0
-            minutePicker!!.maxValue = minutesOptions.size - 1
-            minutePicker!!.displayedValues = minutesOptions
-            minutePicker!!.value = returnTimeValue(timeConvert(90).toString(), TimeConversion.MIN)
+                minutePicker!!.minValue = 0
+                minutePicker!!.maxValue = minutesOptions.size - 1
+                minutePicker!!.displayedValues = minutesOptions
+                minutePicker!!.value = returnTimeValue(convertedTime, TimeConversion.MIN)
 
 
             }
-            TimeConversion.MIN ->{}
+            TimeConversion.MIN ->{
+                dayPicker!!.minValue = 0
+                dayPicker!!.maxValue = daysOptions.size - 1
+                dayPicker!!.displayedValues = daysOptions
+                dayPicker!!.value = 0
+
+                hourPicker!!.minValue = 0
+                hourPicker!!.maxValue = hoursOptions.size - 1
+                hourPicker!!.displayedValues = hoursOptions
+                hourPicker!!.value = 0
+
+                minutePicker!!.minValue = 0
+                minutePicker!!.maxValue = minutesOptions.size - 1
+                minutePicker!!.displayedValues = minutesOptions
+                minutePicker!!.value = returnTimeValue(convertedTime, TimeConversion.MIN)
+
+
+            }
 
 
 
@@ -154,7 +190,7 @@ class TimerFragment : Fragment() {
 
         var hold = sTime.split(":")
 
-        if (hold[1] == "0" && hold[1] == "0")
+        if (hold[0] == "0" && hold[1] == "0")
             return TimeConversion.MIN
         else if (hold[0] == "0" && hold[1] != "0")
             return TimeConversion.HOURS
