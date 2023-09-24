@@ -31,28 +31,14 @@ class TimerFragment : Fragment() {
          hourPicker = view.findViewById<NumberPicker>(R.id.hourPicker)
          minutePicker = view.findViewById<NumberPicker>(R.id.minutePicker)
 
-        // Options for the first NumberPicker
-//        val daysOptions = arrayOf("0 day", "1 day")
-//        dayPicker.minValue = 0
-//        dayPicker.maxValue = daysOptions.size - 1
-//        dayPicker.displayedValues = daysOptions
-//
-//        // Options for the second NumberPicker
-//        val hoursOptions = arrayOf("3 hours", "4 hours" , "5 hours")
-//        hourPicker.minValue = 0
-//        hourPicker.maxValue = hoursOptions.size - 1
-//        hourPicker.displayedValues = hoursOptions
-//        hourPicker.value = 1
-//
-//        // Options for the third NumberPicker
-//        val minutesOptions = arrayOf("15 mins", "30 mins","45 mins")
-//        minutePicker.minValue = 0
-//        minutePicker.maxValue = minutesOptions.size - 1
-//        minutePicker.displayedValues = minutesOptions
-
         // days = 1440 min
+        // 1 day 1 hour 30 = 1530
+        // 1 day 2 hour 30 = 1530
+        // 1 day 3 hour 45 = 1665
+
         // 1 day 1 hour 1500
-        presetTime(minutePicker!!,hourPicker!!, dayPicker!!,  timeConvert(1500).toString())
+
+        presetTime(minutePicker!!,hourPicker!!, dayPicker!!,  timeConvert(1665).toString())
 
 
         cancelBtn = view.findViewById(R.id.cancelBtn)
@@ -111,7 +97,7 @@ class TimerFragment : Fragment() {
 
         )
         val daysOptions = arrayOf("0 day", "1 day")
-        val minutesOptions = arrayOf("15 mins", "30 mins","45 mins")
+        val minutesOptions = arrayOf("0 min", "15 mins", "30 mins","45 mins")
 
 
 
@@ -219,13 +205,14 @@ class TimerFragment : Fragment() {
 
                 val iMin = hold[2].toInt()
 
-                if (iMin == 15)
+                if (iMin == 0)
                     return 0
-                else if (iMin == 30)
+                else if (iMin == 15)
                     return 1
-                else
+                else if (iMin == 30)
                     return 2
-
+                else
+                    return 3
             }
         }
 
