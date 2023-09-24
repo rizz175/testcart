@@ -21,6 +21,41 @@ class TimerFragment : Fragment() {
     private var dayPicker: NumberPicker?=null
     private var hourPicker: NumberPicker?=null
     private var minutePicker: NumberPicker?=null
+    val hoursOptions = arrayOf(
+        "0 hours",
+        "1 hours",
+        "2 hours" ,
+        "3 hours",
+        "4 hours",
+        "5 hours" ,
+        "6 hours",
+        "7 hours",
+        "8 hours" ,
+        "9 hours",
+        "10 hours",
+        "11 hours",
+        "12 hours" ,
+        "13 hours",
+        "14 hours",
+        "15 hours" ,
+        "16 hours",
+        "17 hours",
+        "18 hours",
+        "19 hours" ,
+        "20 hours",
+        "21 hours",
+        "22 hours",
+        "23 hours",
+        "24 hours"
+
+
+    )
+    val daysOptions = arrayOf("0 day", "1 day")
+    val minutesOptions = arrayOf("0 min", "15 mins", "30 mins","45 mins")
+
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +73,7 @@ class TimerFragment : Fragment() {
 
         // 1 day 1 hour 1500
 
-        presetTime(minutePicker!!,hourPicker!!, dayPicker!!,  timeConvert(1665).toString())
+        presetTime(minutePicker!!,hourPicker!!, dayPicker!!,  timeConvert(150).toString())
 
 
         cancelBtn = view.findViewById(R.id.cancelBtn)
@@ -66,107 +101,36 @@ class TimerFragment : Fragment() {
 
     fun presetTime(nMin: NumberPicker, nHour: NumberPicker, nDays : NumberPicker, convertedTime: String){
 
+        setDayPicker(convertedTime, TimeConversion.DAYS)
+        setHourPicker(convertedTime, TimeConversion.HOURS)
+        setMinutePicker(convertedTime, TimeConversion.MIN)
 
-        val hoursOptions = arrayOf(
-            "0 hours",
-            "1 hours",
-            "2 hours" ,
-            "3 hours",
-            "4 hours",
-            "5 hours" ,
-            "6 hours",
-            "7 hours",
-            "8 hours" ,
-            "9 hours",
-            "10 hours",
-            "11 hours",
-            "12 hours" ,
-            "13 hours",
-            "14 hours",
-            "15 hours" ,
-            "16 hours",
-            "17 hours",
-            "18 hours",
-            "19 hours" ,
-            "20 hours",
-            "21 hours",
-            "22 hours",
-            "23 hours",
-            "24 hours"
-
-
-        )
-        val daysOptions = arrayOf("0 day", "1 day")
-        val minutesOptions = arrayOf("0 min", "15 mins", "30 mins","45 mins")
-
-
-
-        when (getTimeValue(convertedTime)) {
-
-            TimeConversion.DAYS ->{
-
-                dayPicker!!.minValue = 0
-                dayPicker!!.maxValue = daysOptions.size - 1
-                dayPicker!!.displayedValues = daysOptions
-                dayPicker!!.value = returnTimeValue(convertedTime, TimeConversion.DAYS)
-
-                hourPicker!!.minValue = 0
-                hourPicker!!.maxValue = hoursOptions.size - 1
-                hourPicker!!.displayedValues = hoursOptions
-                hourPicker!!.value = returnTimeValue(convertedTime, TimeConversion.HOURS)
-
-                minutePicker!!.minValue = 0
-                minutePicker!!.maxValue = minutesOptions.size - 1
-                minutePicker!!.displayedValues = minutesOptions
-                minutePicker!!.value = returnTimeValue(convertedTime, TimeConversion.MIN)
-
-            }
-            TimeConversion.HOURS ->{
-
-                dayPicker!!.minValue = 0
-                dayPicker!!.maxValue = daysOptions.size - 1
-                dayPicker!!.displayedValues = daysOptions
-                dayPicker!!.value = 0
-
-                hourPicker!!.minValue = 0
-                hourPicker!!.maxValue = hoursOptions.size - 1
-                hourPicker!!.displayedValues = hoursOptions
-                hourPicker!!.value = returnTimeValue(convertedTime, TimeConversion.HOURS)
-
-                minutePicker!!.minValue = 0
-                minutePicker!!.maxValue = minutesOptions.size - 1
-                minutePicker!!.displayedValues = minutesOptions
-                minutePicker!!.value = returnTimeValue(convertedTime, TimeConversion.MIN)
-
-
-            }
-            TimeConversion.MIN ->{
-                dayPicker!!.minValue = 0
-                dayPicker!!.maxValue = daysOptions.size - 1
-                dayPicker!!.displayedValues = daysOptions
-                dayPicker!!.value = 0
-
-                hourPicker!!.minValue = 0
-                hourPicker!!.maxValue = hoursOptions.size - 1
-                hourPicker!!.displayedValues = hoursOptions
-                hourPicker!!.value = 0
-
-                minutePicker!!.minValue = 0
-                minutePicker!!.maxValue = minutesOptions.size - 1
-                minutePicker!!.displayedValues = minutesOptions
-                minutePicker!!.value = returnTimeValue(convertedTime, TimeConversion.MIN)
-
-
-            }
-
-
-
-            else -> throw IllegalStateException()
-        }
 
 
     }
 
+
+    fun setDayPicker(convertedTime: String, timeConversion: TimeConversion){
+        dayPicker!!.minValue = 0
+        dayPicker!!.maxValue = daysOptions.size - 1
+        dayPicker!!.displayedValues = daysOptions
+        dayPicker!!.value = returnTimeValue(convertedTime, timeConversion)
+    }
+
+
+    fun setHourPicker(convertedTime: String, timeConversion: TimeConversion){
+        hourPicker!!.minValue = 0
+        hourPicker!!.maxValue = hoursOptions.size - 1
+        hourPicker!!.displayedValues = hoursOptions
+        hourPicker!!.value = returnTimeValue(convertedTime, timeConversion)
+    }
+
+    fun setMinutePicker(convertedTime: String, timeConversion: TimeConversion){
+        minutePicker!!.minValue = 0
+        minutePicker!!.maxValue = minutesOptions.size - 1
+        minutePicker!!.displayedValues = minutesOptions
+        minutePicker!!.value = returnTimeValue(convertedTime, timeConversion)
+    }
 
 
     fun timeConvert(time: Int): String? {
