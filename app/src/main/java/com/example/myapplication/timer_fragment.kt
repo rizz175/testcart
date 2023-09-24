@@ -73,7 +73,7 @@ class TimerFragment : Fragment() {
 
         // 1 day 1 hour 1500
 
-        presetTime(minutePicker!!,hourPicker!!, dayPicker!!,  timeConvert(150).toString())
+        presetTime(timeConvert(150).toString())
 
 
         cancelBtn = view.findViewById(R.id.cancelBtn)
@@ -99,7 +99,7 @@ class TimerFragment : Fragment() {
     }
 
 
-    fun presetTime(nMin: NumberPicker, nHour: NumberPicker, nDays : NumberPicker, convertedTime: String){
+    fun presetTime(convertedTime: String){
 
         setDayPicker(convertedTime, TimeConversion.DAYS)
         setHourPicker(convertedTime, TimeConversion.HOURS)
