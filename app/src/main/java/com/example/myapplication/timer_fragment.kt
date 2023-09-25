@@ -10,7 +10,9 @@ import android.widget.Button
 import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.TimePicker
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import kotlin.math.log
 
 class TimerFragment : Fragment() {
 
@@ -80,10 +82,15 @@ class TimerFragment : Fragment() {
         saveBtn = view.findViewById(R.id.saveBtn)
 
         cancelBtn.setOnClickListener {
-            showUnSavedDialog()
+//            showUnSavedDialog()
+      ;
+
         }
         saveBtn.setOnClickListener {
-            showCartTimerAlert()
+            if (areAllPickersZero()) {
+                // Show the "Cart Timer Too Short" alert if all pickers are zero.
+                showCartTimerAlert()
+            }
         }
 
         showCartTimerAlert()
@@ -92,7 +99,15 @@ class TimerFragment : Fragment() {
 
         return view
     }
+    override fun onResume() {
+        super.onResume()
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showUnSavedDialog()
 
+            }
+        })
+    }
 
     enum class TimeConversion {
         DAYS, HOURS, MIN
@@ -184,7 +199,17 @@ class TimerFragment : Fragment() {
     }
 
 
+    private fun calculateTotalMinutes(): Int {
+        // Get the selected values from NumberPickers
+        val selectedHours = hourPicker?.value ?: 0
+        val selectedMinutes = minutePicker?.value ?: 0
 
+        // Calculate total minutes
+        val totalMinutes = (selectedHours * 60) + (selectedMinutes*15)
+
+
+        return totalMinutes
+    }
 
     fun showUnSavedDialog()
     {
@@ -217,5 +242,12 @@ class TimerFragment : Fragment() {
             .create()
         alertDialog.show()
 
+    }
+    private fun areAllPickersZero(): Boolean {
+        val selectedDays = dayPicker?.value ?: 0
+        val selectedHours = hourPicker?.value ?: 0
+        val selectedMinutes = minutePicker?.value ?: 0
+
+        return selectedDays == 0 && selectedHours == 0 && selectedMinutes == 0
     }
 }
