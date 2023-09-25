@@ -203,9 +203,10 @@ class TimerFragment : Fragment() {
         // Get the selected values from NumberPickers
         val selectedHours = hourPicker?.value ?: 0
         val selectedMinutes = minutePicker?.value ?: 0
+        val selectedDays = dayPicker?.value ?: 0
 
         // Calculate total minutes
-        val totalMinutes = (selectedHours * 60) + (selectedMinutes*15)
+        val totalMinutes = (selectedDays * 24 * 60) +(selectedHours * 60) + (selectedMinutes*15)
 
 
         return totalMinutes
