@@ -54,8 +54,8 @@ class TimerFragment : Fragment() {
     )
     val daysOptions = arrayOf("0 day", "1 day")
     val minutesOptions = arrayOf("0 min", "15 mins", "30 mins","45 mins")
-
-
+    var initalMinutes=0;
+    var finalMinutes=0;
 
 
 
@@ -76,7 +76,8 @@ class TimerFragment : Fragment() {
         // 1 day 1 hour 1500
 
         presetTime(timeConvert(150).toString())
-
+        initalMinutes=calculateTotalMinutes();
+        finalMinutes=initalMinutes;
 
         cancelBtn = view.findViewById(R.id.cancelBtn)
         saveBtn = view.findViewById(R.id.saveBtn)
@@ -85,6 +86,18 @@ class TimerFragment : Fragment() {
 //            showUnSavedDialog()
       ;
 
+        }
+
+        dayPicker?.setOnValueChangedListener { _, _, _ ->
+            updateFinalMinutes()
+        }
+
+        hourPicker?.setOnValueChangedListener { _, _, _ ->
+            updateFinalMinutes()
+        }
+
+        minutePicker?.setOnValueChangedListener { _, _, _ ->
+            updateFinalMinutes()
         }
         saveBtn.setOnClickListener {
             if (areAllPickersZero()) {
@@ -103,7 +116,13 @@ class TimerFragment : Fragment() {
         super.onResume()
         requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                showUnSavedDialog()
+
+
+                if (initalMinutes != finalMinutes) {
+                    // Show the "Unsaved Changes" dialog
+                    showUnSavedDialog()
+                }
+
 
             }
         })
@@ -219,8 +238,8 @@ class TimerFragment : Fragment() {
             .setTitle("You have unsaved changes")
             .setMessage("Continuing without saving your changes means you will lose those changes")
             .setPositiveButton("Delete Changes") { _, _ ->
-                // Handle "Delete Changes" button click
-                // Add your logic here
+                presetTime(timeConvert(150).toString())
+                updateFinalMinutes()
             }
             .setNegativeButton("Cancel Navigation") { _, _ ->
                 // Handle "Cancel Navigation" button click
@@ -250,5 +269,8 @@ class TimerFragment : Fragment() {
         val selectedMinutes = minutePicker?.value ?: 0
 
         return selectedDays == 0 && selectedHours == 0 && selectedMinutes == 0
+    }
+    private fun updateFinalMinutes() {
+        finalMinutes = calculateTotalMinutes();
     }
 }
